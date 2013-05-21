@@ -1,10 +1,8 @@
 
 <template name="login">
 <div class="entry">
-  {{#if currentUser}}
-    <input id="btnLogout" type="button" value="Logout"></input>
-  {{else}}
+  {{#unless currentUser}}
     {{loginButtons}}
-  {{/if}}
+  {{/unless}}
 </div>
 </template>

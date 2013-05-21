@@ -1,2 +1,2 @@
-Template.login.events "click #btnLogout" : ->
-	Meteor.logout -> console.log "logout!!"
+# Template.login.events "click #btnLogout" : ->
+# 	Meteor.logout -> console.log "logout!!"

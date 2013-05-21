@@ -1,0 +1,11 @@
+
+<template name="scene">
+  {{#if currentUser}}
+    <!-- <input id="btnLogout" type="button" value="Logout"></input> -->
+    <div id="container">
+    	{{> home}}
+    </div>
+  {{else}}
+    {{> login}}
+  {{/if}}
+</template>
