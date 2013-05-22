@@ -1,2 +1,5 @@
 Template.store.events "click .btnBase" : ->
-	console.log "btnBase!!"
+	gotoPage "home"
+
+Template.store.data = ->
+	"testdata"
