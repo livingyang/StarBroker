@@ -1,3 +1,22 @@
+convertCsvToJsonArray = (csvArray, headerRowIndex, typeRowIndex, startFieldRowIndex) ->
+
+	csvArray = [] if csvArray not instanceof Array
+	headerRowIndex = 2 if headerRowIndex not instanceof Number
+	typeRowIndex = 1 if typeRowIndex not instanceof Number
+	startFieldRowIndex = 3 if startFieldRowIndex not instanceof Number
+
+	result = (convertCsvRowToJson csvArray[headerRowIndex], fields, csvArray[typeRowIndex] for fields in csvArray[startFieldRowIndex..])
+
+convertCsvField = (field, type) ->
+	switch type
+		when "number" then Number(field)
+		when "bool" then Boolean(Number(field))
+		else String(field)
+
+convertCsvRowToJson = (csvHeaders, csvFields, csvFieldTypes) ->
+	result = {}
+	(result[header] = convertCsvField csvFields[i], csvFieldTypes[i] for header, i in csvHeaders if csvHeaders.length is csvFields.length)
+	result
 
 getFilePath = (fileDir, fileName) ->
 	filePath = fileDir
@@ -22,7 +41,7 @@ createCollection = (collectionName, jsonArray) ->
 createCollectionWithFile = (filePath, collectionName) ->
 	fs = Npm.require("fs")
 
-	createCollection collectionName, (csv_to_json (fs.readFileSync filePath).toString())
+	createCollection collectionName, convertCsvToJsonArray (fs.readFileSync filePath).toString().csvToArray({rSep:"\n"})
 
 createCollectionsWithDir = (dirPath) ->
 	fs = Npm.require("fs")
