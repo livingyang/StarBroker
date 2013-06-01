@@ -1,0 +1,24 @@
+<template name="starList">
+	<h3>Star List</h3>
+
+	<br/>
+
+	{{#each stars}}
+		{{> star}}
+	{{/each}}
+
+	<br/>
+	<button class="home">Home</button>
+</template>
+
+<template name="star">
+	<span>{{name}}</span>
+	<span>{{acting}}</span>
+	<span>{{singing}}</span>
+	<span>{{eloquence}}</span>
+	<span>{{elegant}}</span>
+	<span>{{sexy}}</span>
+	<span>{{wisdom}}</span>
+	<span>{{physical}}</span>
+	<br/>
+</template>
