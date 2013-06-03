@@ -6,3 +6,6 @@ Template.home.events "click #starList" : ->
 
 Template.home.events "click #login" : ->
 	gotoPage "login"
+
+Template.home.events "click #userInfo" : ->
+	gotoPage "userInfo"

@@ -1,0 +1,19 @@
+<template name="userInfo">
+	<h3>User Info</h3>
+
+	<p>Id : {{user._id}}</p>
+	
+	{{#each emails}}
+		{{> email}}
+	{{/each}}
+	<br/>
+
+	<button class="home">Home</button>
+</template>
+
+<template name="email">
+	<div>
+		<span>address : {{address}}</span>
+		<span>verified : {{verified}}</span>
+	</div>
+</template>
