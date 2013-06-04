@@ -1,3 +1,4 @@
+
 Template.home.events "click #store" : ->
 	gotoPage "store"
 
@@ -9,3 +10,6 @@ Template.home.events "click #login" : ->
 
 Template.home.events "click #userInfo" : ->
 	gotoPage "userInfo"
+
+Template.home.events "click #purchase" : ->
+	gotoPage "purchase"
