@@ -1,17 +1,21 @@
-<template name="starList">
-	<h3>Star List</h3>
+<template name="starModelList">
+	<h3>Star Model List</h3>
 
-	<br/>
-
-	{{#each stars}}
-		{{> star}}
+	{{#each starModels}}
+		{{> starModel}}
 	{{/each}}
 
-	<br/>
+	<p>----------</p>
+	
+	{{#each stars}}
+		{{> starModel}}
+	{{/each}}
+
+
 	{{> backHome}}
 </template>
 
-<template name="star">
+<template name="starModel">
 	<span>{{name}}</span>
 	<span>{{acting}}</span>
 	<span>{{singing}}</span>
