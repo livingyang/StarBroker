@@ -13,3 +13,7 @@ Template.home.events "click #userInfo" : ->
 
 Template.home.events "click #purchase" : ->
 	gotoPage "purchase"
+
+Template.backHome.events "click .backHome" : ->
+	gotoPage "home"
+

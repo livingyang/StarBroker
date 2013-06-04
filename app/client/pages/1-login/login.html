@@ -5,7 +5,7 @@
 	<h3>LOGIN</h3>
 
 	{{#if currentUser}}
-		<button id="home">Home</button>
+		{{> backHome}}
 		<input id="btnLogout" type="button" value="Logout"></input>
 	{{else}}
 		{{loginButtons}}

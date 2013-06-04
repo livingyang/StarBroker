@@ -1,8 +1,8 @@
-Template.userInfo.events "click .home" : ->
-	gotoPage "home"
-
 Template.userInfo.user = ->
 	Meteor.user()
 
+Template.userInfo.company = ->
+	Company.findOne({owner: Meteor.userId()})
+
 Template.userInfo.emails = ->
-	Meteor.user().emails
+	Meteor.users.findOne({_id: Meteor.userId()}).emails

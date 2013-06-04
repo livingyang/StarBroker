@@ -6,9 +6,13 @@
 	{{#each emails}}
 		{{> email}}
 	{{/each}}
+
+	<p>Money : {{company.money}}</p>
+	<p>Gold : {{company.gold}}</p>
+
 	<br/>
 
-	<button class="home">Home</button>
+	{{> backHome}}
 </template>
 
 <template name="email">
