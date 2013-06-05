@@ -1,0 +1,23 @@
+<template name="companyDetail">
+	<h3>Company</h3>
+
+	{{#if hasCompany}}
+		{{> company}}
+	{{else}}
+		<input type="text" id="companyName"></input>
+		<button id="createCompany">CreateCompany</button>
+	{{/if}}
+
+	<br/>
+
+	{{> backHome}}
+</template>
+
+<template name="company">
+	<div>
+		<p>Name : {{company.name}}</p>
+		<p>Money : {{company.money}}</p>
+		<p>Gold : {{company.gold}}</p>
+	</div>
+</template>
+

@@ -8,8 +8,8 @@ Template.home.events "click #starModelList" : ->
 Template.home.events "click #login" : ->
 	gotoPage "login"
 
-Template.home.events "click #userInfo" : ->
-	gotoPage "userInfo"
+Template.home.events "click #companyDetail" : ->
+	gotoPage "companyDetail"
 
 Template.home.events "click #purchase" : ->
 	gotoPage "purchase"
