@@ -1,5 +1,5 @@
 Template.companyDetail.hasCompany = ->
-	Company.find({owner: Meteor.userId()}).count() is 1
+	UserCompany()?
 
 Template.companyDetail.events
 	"click #createCompany" : ->
@@ -7,4 +7,16 @@ Template.companyDetail.events
 			console.log "CreateCompany result = #{result}"
 
 Template.company.company = ->
-	Company.findOne({owner: Meteor.userId()})
+	UserCompany()
+
+Template.company.actionPoint = ->
+	property = new TimeRecoverProperty(UserCompany().actionPoint)
+	"#{property.getCurValue getSynchronizeTime()}/#{property.getMaxValue()}"
+
+Template.company.promotionPoint = ->
+	property = new TimeRecoverProperty(UserCompany().promotionPoint)
+	"#{property.getCurValue getSynchronizeTime()}/#{property.getMaxValue()}"
+
+Template.company.events "click #useAction" : ->
+	console.log "useAction"
+	Meteor.call "useActionPoint", 3
