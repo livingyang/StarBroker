@@ -1,9 +1,30 @@
 class TimeRecoverProperty
     constructor: (options) ->
+        options = {} if not options?
+        options.maxRecoverTime = 1 if not options.maxRecoverTime? or options.maxRecoverTime <= 0
+        options.curRecoverTime = 0 if not options.curRecoverTime? or options.curRecoverTime < 0
+        options.timeToValueRate = 1 if not options.timeToValueRate? or options.timeToValueRate <= 0
+        options.timeStamp = 0 if not options.timeStamp?
+
         {@maxRecoverTime, @timeToValueRate, @curRecoverTime, @timeStamp} = options
-        @curRecoverTime = 0 if not @curRecoverTime?
-        @timeToValueRate = 1 if @timeToValueRate is 0
-        @timeStamp = (new Date()).getTime() if not @timeStamp?
+
+    getValue: (time) ->
+        time = @timeStamp if not time?
+        subTime = time - @timeStamp
+
+        if @curRecoverTime > @maxRecoverTime
+            @curRecoverTime / @timeToValueRate
+        else
+            (@curRecoverTime + subTime) / @timeToValueRate
+
+
+    updateTime: (time) ->
+        if time? and time > @timeStamp
+            subTime = time - @timeStamp
+            @timeStamp = time
+            if @curRecoverTime < @maxRecoverTime
+                @curRecoverTime += subTime
+                @curRecoverTime = @maxRecoverTime if @curRecoverTime > @maxRecoverTime
 
     getSubTime: (curTime) ->
         curTime = (new Date()).getTime() if not curTime?
