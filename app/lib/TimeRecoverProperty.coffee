@@ -1,3 +1,13 @@
+###
+TimeRecoverProperty : 时间恢复属性
+
+维护一个时间戳
+
+记录时间值，并且计算属性值
+
+记录时间到属性的转换比率
+###
+
 class TimeRecoverProperty
     constructor: (options) ->
         options = {} if not options?
@@ -8,55 +18,34 @@ class TimeRecoverProperty
 
         {@maxRecoverTime, @timeToValueRate, @curRecoverTime, @timeStamp} = options
 
-    getValue: (time) ->
-        time = @timeStamp if not time?
-        subTime = time - @timeStamp
-
-        if @curRecoverTime > @maxRecoverTime
-            @curRecoverTime / @timeToValueRate
-        else
-            (@curRecoverTime + subTime) / @timeToValueRate
-
+    getMaxValue: -> Math.floor @maxRecoverTime / @timeToValueRate
+    getCurValue: -> Math.floor @curRecoverTime / @timeToValueRate
 
     updateTime: (time) ->
-        if time? and time > @timeStamp
-            subTime = time - @timeStamp
+        if typeof time is "number" and time > @timeStamp
+            maxTime = if @curRecoverTime > @maxRecoverTime then @curRecoverTime else @maxRecoverTime
+            @curRecoverTime += time - @timeStamp
+            @curRecoverTime = maxTime if @curRecoverTime > maxTime
             @timeStamp = time
-            if @curRecoverTime < @maxRecoverTime
-                @curRecoverTime += subTime
-                @curRecoverTime = @maxRecoverTime if @curRecoverTime > @maxRecoverTime
-
-    getSubTime: (curTime) ->
-        curTime = (new Date()).getTime() if not curTime?
-        curTime - @timeStamp
-    getMaxValue: () -> Math.floor @maxRecoverTime / @timeToValueRate
-    getCurValue: (curTime) ->
-        curValue = 0
-        curTime = curTime or (new Date()).getTime()
-        curTime = @timeStamp if curTime < @timeStamp
-
-        if @curRecoverTime > @maxRecoverTime
-            curValue = Math.floor @curRecoverTime / @timeToValueRate
+            true
         else
-            @curRecoverTime = @curRecoverTime + @getSubTime curTime
-            @curRecoverTime = @maxRecoverTime if @curRecoverTime > @maxRecoverTime
-            curValue = Math.floor @curRecoverTime / @timeToValueRate
+            false
 
-        @timeStamp = curTime
-        curValue
+    getRemainRecoverTime: ->
+        if @curRecoverTime < @maxRecoverTime then @maxRecoverTime - @curRecoverTime else 0
 
-    getRemainRecoverTime: (curTime) ->
-        remainTime = @maxRecoverTime - (@getSubTime curTime) - @curRecoverTime
-        remainTime = 0 if remainTime < 0
-        remainTime
-    
-    convertValueToTime: (value) ->
-        value = 0 if not value instanceof Number or value < 0
-        value * @timeToValueRate
+    upValue: (value) ->
+        if typeof value is "number" and value > 0
+            @curRecoverTime += value * @timeToValueRate
+            true
+        else
+            false
 
-    increaseCurValue: (increaseValue) ->
-        if @getCurValue() >= increaseValue and @curRecoverTime >= @convertValueToTime increaseValue
-            @curRecoverTime -= @convertValueToTime increaseValue
-
+    downValue: (value) ->
+        if typeof value is "number" and value > 0 and value * @timeToValueRate <= @curRecoverTime
+            @curRecoverTime -= value * @timeToValueRate
+            true
+        else
+            false
 
 @TimeRecoverProperty = TimeRecoverProperty
