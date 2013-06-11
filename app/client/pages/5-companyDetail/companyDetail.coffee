@@ -1,3 +1,26 @@
+updateHandle = null
+
+getUpdatedTimeProperty = (prop) ->
+	prop.updateTime getServerTime()
+	prop
+
+initTimeProperty = ->
+	setCompanyActionPoint getUpdatedTimeProperty new TimeRecoverProperty UserCompany().actionPoint
+	setCompanyPromotionPoint getUpdatedTimeProperty new TimeRecoverProperty UserCompany().promotionPoint
+
+getCompanyActionPoint = ->
+	new TimeRecoverProperty Session.get "companyActionPoint"
+
+setCompanyActionPoint = (prop) ->
+	Session.set "companyActionPoint", prop
+
+getCompanyPromotionPoint = ->
+	new TimeRecoverProperty Session.get "companyPromotionPoint"
+
+setCompanyPromotionPoint = (prop) ->
+	Session.set "companyPromotionPoint", prop
+
+# Template.companyDetail
 Template.companyDetail.hasCompany = ->
 	UserCompany()?
 
@@ -6,24 +29,15 @@ Template.companyDetail.events
 		Meteor.call "createCompany", $("#companyName").val(), (error, result) ->
 			console.log "CreateCompany result = #{result}"
 
-setTimeProperty = (name, property) ->
-	Session.set name, property
-
-getTimeProperty = (name) ->
-	Session.get name
-
-updateTimeProperty = (name) ->
-	setTimeProperty name, (getTimeProperty name).getCurValue if (getTimeProperty name)
-
-updateHandle = null
-
+# Template.company
 Template.company.created = ->
 	updateHandle = Meteor.setInterval (() ->
-		console.log "created"
+		setCompanyActionPoint(getUpdatedTimeProperty getCompanyActionPoint())
+		setCompanyPromotionPoint(getUpdatedTimeProperty getCompanyPromotionPoint())
 	), 1000
 
-	curCompany = UserCompany()
-	setTimeProperty "actionTimeProperty", new TimeRecoverProperty curCompany.actionPoint
+	initTimeProperty()
+
 	console.log "company.created"
 
 Template.company.destroyed = ->
@@ -35,24 +49,29 @@ Template.company.company = ->
 	UserCompany()
 
 Template.company.actionPoint = ->
-	property = new TimeRecoverProperty(UserCompany().actionPoint)
-	"#{property.getCurValue getSynchronizeTime()}/#{property.getMaxValue()}"
+	property = getCompanyActionPoint()
+	"#{property.getCurValue()}/#{property.getMaxValue()}"
 
 Template.company.remainActionPoint = ->
-	console.log (getTimeProperty "actionTimeProperty")
-	(new TimeRecoverProperty getTimeProperty "actionTimeProperty").getRemainRecoverTime()
+	second = Math.floor getCompanyActionPoint().getRemainRecoverTime() / 1000
+	"#{Math.floor second / 3600} : #{Math.floor (second % 3600) / 60} : #{second % 60}"
 
 Template.company.promotionPoint = ->
-	property = new TimeRecoverProperty(UserCompany().promotionPoint)
-	"#{property.getCurValue getSynchronizeTime()}/#{property.getMaxValue()}"
+	property = getCompanyPromotionPoint()
+	"#{property.getCurValue()}/#{property.getMaxValue()}"
 
 Template.company.remainPromotionPoint = ->
-	20
+	second = Math.floor getCompanyPromotionPoint().getRemainRecoverTime() / 1000
+	"#{Math.floor second / 3600} : #{Math.floor (second % 3600) / 60} : #{second % 60}"
 
 Template.company.events "click #useAction" : ->
 	console.log "useAction"
-	Meteor.call "useActionPoint", 3
+	Meteor.call "useActionPoint", 3, (result) ->
+		console.log result
+		initTimeProperty()
 
 Template.company.events "click #usePromotion" : ->
 	console.log "usePromotion"
-	Meteor.call "usePromotionPoint", 2
+	Meteor.call "usePromotionPoint", 2, (result) ->
+		console.log result
+		initTimeProperty()

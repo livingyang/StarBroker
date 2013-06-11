@@ -5,11 +5,11 @@ if Meteor.isClient
 		Meteor.call "getServerTimeStamp", (error, result) ->
 			subServerAndClientTime = result - (new Date()).getTime()
 
-	getSynchronizeTime = ->
+	getServerTime = ->
 		subServerAndClientTime + (new Date()).getTime()
 
 	@initServerTime = initServerTime
-	@getSynchronizeTime = getSynchronizeTime
+	@getServerTime = getServerTime
 
 if Meteor.isServer
 	Meteor.methods getServerTimeStamp : () ->

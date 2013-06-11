@@ -19,22 +19,35 @@ Meteor.methods
 				actionPoint : new TimeRecoverProperty
 	    			maxRecoverTime: MaxActionPointRecoverTime
 	    			timeToValueRate: TimeToActionPoint
-	    			curRecoverTime: 0
+	    			curRecoverTime: MaxActionPointRecoverTime
+	    			timeStamp: (new Date()).getTime()
 				promotionPoint : new TimeRecoverProperty
 	    			maxRecoverTime: MaxPromotionPointRecoverTime
 	    			timeToValueRate: TimeToPromotionPoint
-	    			curRecoverTime: 0
+	    			curRecoverTime: MaxPromotionPointRecoverTime
+	    			timeStamp: (new Date()).getTime()
+
 			"User: #{Meteor.userId()} create company: #{name} success"
 	
 	useActionPoint: (point) ->
-		console.log "use action point #{point}"
 		actionPointProp = new TimeRecoverProperty UserCompany().actionPoint
-		actionPointProp.increaseCurValue point
-		Company.update {owner: Meteor.userId()}, {$set:{actionPoint: actionPointProp}}
+		actionPointProp.updateTime (new Date()).getTime()
+		if actionPointProp.downValue point
+			Company.update {owner: Meteor.userId()}, {$set:{actionPoint: actionPointProp}}
+			console.log "use action point:#{point} success"
+			"use success!!!"
+		else
+			console.log "use action point:#{point} failed"
+			"use failed!!"
 	
 	usePromotionPoint: (point) ->
-		console.log "use promotion point #{point}"
 		promotionPointProp = new TimeRecoverProperty UserCompany().promotionPoint
-		promotionPointProp.increaseCurValue point
-		Company.update {owner: Meteor.userId()}, {$set:{promotionPoint: promotionPointProp}}
+		promotionPointProp.updateTime (new Date()).getTime()
+		if promotionPointProp.downValue point
+			Company.update {owner: Meteor.userId()}, {$set:{promotionPoint: promotionPointProp}}
+			console.log "use promotion point:#{point} success"
+			"use success!!!"
+		else
+			console.log "use promotion point:#{point} failed"
+			"use failed!!"
 	
