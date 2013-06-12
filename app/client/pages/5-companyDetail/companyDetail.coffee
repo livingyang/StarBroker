@@ -64,6 +64,15 @@ Template.company.remainPromotionPoint = ->
 	second = Math.floor getCompanyPromotionPoint().getRemainRecoverTime() / 1000
 	"#{Math.floor second / 3600} : #{Math.floor (second % 3600) / 60} : #{second % 60}"
 
+Template.company.exp = ->
+	UserCompany().exp
+
+Template.company.nextExp = ->
+	1
+
+Template.company.level = ->
+	10
+
 Template.company.events "click #useAction" : ->
 	console.log "useAction"
 	Meteor.call "useActionPoint", 3, (result) ->
@@ -75,3 +84,7 @@ Template.company.events "click #usePromotion" : ->
 	Meteor.call "usePromotionPoint", 2, (result) ->
 		console.log result
 		initTimeProperty()
+
+Template.company.events "click #addExp" : ->
+	Meteor.call "addExp", 100, (error, result) ->
+		console.log "addExp100 !!"

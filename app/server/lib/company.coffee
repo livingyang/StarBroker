@@ -16,6 +16,7 @@ Meteor.methods
 				owner : Meteor.userId()
 				money : 0
 				gold : 0
+				exp : 0
 				actionPoint : new TimeRecoverProperty
 	    			maxRecoverTime: MaxActionPointRecoverTime
 	    			timeToValueRate: TimeToActionPoint
@@ -50,4 +51,8 @@ Meteor.methods
 		else
 			console.log "use promotion point:#{point} failed"
 			"use failed!!"
+
+	addExp: (exp) ->
+		console.log "user: #{Meteor.userId()} addExp: #{exp}"
+		Company.update {owner: Meteor.userId()}, {$inc:{exp: Number(exp)}}
 	
