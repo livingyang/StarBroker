@@ -12,7 +12,7 @@ buildFile = (filePath, distDir) ->
     		console.log('exec error: ' + error)
 
 buildFile "../../lib/TimeRecoverProperty.coffee", dirDistSrc
-buildFile "../../lib/CompanyLevel.coffee", dirDistSrc
+buildFile "../../lib/LevelExpExchange.coffee", dirDistSrc
 
 fs.readdir "spec", (err, files) ->
 	files.forEach (filename) ->

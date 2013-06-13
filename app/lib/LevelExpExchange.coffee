@@ -1,13 +1,3 @@
-
-ExpArray = [200, 400, 600, 1000]
-
-getCompanyLevel = (exp) ->
-	result = ExpArray.length;
-	for levelUpExp, i in ExpArray
-		console.log "exp = #{levelUpExp}, i = #{i}"
-
-@getCompanyLevel = getCompanyLevel
-
 isValidLevelExpArray = (levelExpArray) ->
 	if levelExpArray instanceof Array and levelExpArray.length >= 1 and levelExpArray[0] is 0
 		result = true

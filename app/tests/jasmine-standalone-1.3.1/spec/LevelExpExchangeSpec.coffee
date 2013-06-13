@@ -1,4 +1,4 @@
-describe "CompanyLevel", ->
+describe "LevelExpExchange", ->
 	it "是否为有效的等级数据", ->
 		expect(isValidLevelExpArray "0, 1, 2").toBe(false)
 		expect(isValidLevelExpArray [-1, 0, 10, 1000]).toBe(false)
