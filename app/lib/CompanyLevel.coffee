@@ -10,10 +10,10 @@ getCompanyLevel = (exp) ->
 
 isValidLevelExpArray = (levelExpArray) ->
 	if levelExpArray instanceof Array
-	then levelExpArray.length > 0 and levelExpArray[0] is 0 and (
+	then levelExpArray.length > 1 and levelExpArray[0] is 0 and (
 		result = true
 		for exp, i in levelExpArray[1..]
-			result = result and levelExpArray[i - 1] < exp
+			result = result and (levelExpArray[i] < exp)
 		result)
 	else false
 
