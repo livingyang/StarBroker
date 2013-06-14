@@ -1,4 +1,7 @@
 
+Template.backHome.events "click .backHome" : ->
+	gotoPage "home"
+	
 Template.home.events "click #store" : ->
 	gotoPage "store"
 
@@ -14,6 +17,7 @@ Template.home.events "click #companyDetail" : ->
 Template.home.events "click #purchase" : ->
 	gotoPage "purchase"
 
-Template.backHome.events "click .backHome" : ->
-	gotoPage "home"
+Template.home.events "click #talent" : ->
+	gotoPage "talent"
+
 
