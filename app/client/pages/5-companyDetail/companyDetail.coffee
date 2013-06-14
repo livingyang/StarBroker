@@ -68,10 +68,10 @@ Template.company.exp = ->
 	UserCompany().exp
 
 Template.company.nextExp = ->
-	1
+	getCompanyNextLevelExp UserCompany().exp
 
 Template.company.level = ->
-	10
+	getCompanyLevel UserCompany().exp
 
 Template.company.events "click #useAction" : ->
 	console.log "useAction"
