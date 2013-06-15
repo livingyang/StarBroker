@@ -11,3 +11,15 @@ UserCompany = ->
 
 @Company = Company
 @UserCompany = UserCompany
+
+if Meteor.isServer
+	getCollectionFetchArray = (collection) ->
+		collection.find().fetch() if collection?
+
+	getMapFromFetchArray = (fetchArray, key = "_id") ->
+		map = {}
+		(map[obj[key]] = obj for obj in fetchArray when obj[key]?)
+		map
+
+	StarModelMap = getMapFromFetchArray getCollectionFetchArray StarModels
+	
