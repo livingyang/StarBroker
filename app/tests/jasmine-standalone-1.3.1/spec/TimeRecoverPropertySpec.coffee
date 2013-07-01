@@ -9,7 +9,7 @@ describe "TimeRecoverProperty", ->
 
 	it "用错误参数进行初始化", ->
 		prop = new TimeRecoverProperty
-			maxRecoverTime: -1
+			maxRecoverTime: "2"
 			curRecoverTime: -10
 			timeToValueRate: -1
 			timeStamp: -1

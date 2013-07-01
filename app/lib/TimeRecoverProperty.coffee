@@ -10,11 +10,11 @@ TimeRecoverProperty : 时间恢复属性
 
 class TimeRecoverProperty
     constructor: (options) ->
-        options = {} if not options?
-        options.maxRecoverTime = 1 if not options.maxRecoverTime? or options.maxRecoverTime <= 0
-        options.curRecoverTime = 0 if not options.curRecoverTime? or options.curRecoverTime < 0
-        options.timeToValueRate = 1 if not options.timeToValueRate? or options.timeToValueRate <= 0
-        options.timeStamp = 0 if not options.timeStamp?
+        options ?= {}
+        options.maxRecoverTime = 1 if typeof options.maxRecoverTime isnt "number" or options.maxRecoverTime <= 0
+        options.curRecoverTime = 0 if typeof options.curRecoverTime isnt "number" or options.curRecoverTime < 0
+        options.timeToValueRate = 1 if typeof options.timeToValueRate isnt "number" or options.timeToValueRate <= 0
+        options.timeStamp = 0 if typeof options.timeStamp isnt "number"
 
         {@maxRecoverTime, @timeToValueRate, @curRecoverTime, @timeStamp} = options
 
