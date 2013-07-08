@@ -1,3 +1,5 @@
+setPageNameToList "purchase"
+
 Template.purchase.events "click .money1000" : ->
 	Meteor.call "addMoney", 1000, (error, result) ->
 		console.log "addMoney1000 !!"

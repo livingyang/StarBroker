@@ -6,10 +6,12 @@
 <template name="home">
 	<h3>HOME</h3>
 
-	<button id="login">Login</button>	
-	<button id="store">Store</button>
-	<button id="starModelList">StarModelList</button>
-	<button id="companyDetail">CompanyDetail</button>
-	<button id="purchase">Purchase</button>
-	<button id="talent">Talent</button>
+	{{#each pageList}}
+		{{> pageButton}}
+	{{/each}}
 </template>
+
+<template name="pageButton">
+	<button id="{{pageName}}" class="pageButton">{{pageName}}</button>
+</template>
+

@@ -1,3 +1,5 @@
+setPageNameToList "companyDetail"
+
 updateHandle = null
 
 getUpdatedTimeProperty = (prop) ->
