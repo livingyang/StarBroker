@@ -1,5 +1,12 @@
 setPageNameToList "mission"
 
+getHolderImage = (imageName) ->
+	image = $(document.createElement("img")).attr("data-src" : imageName)
+	Holder.run({
+		images: image[0]
+	})
+	image.attr("src")
+
 cleanCollie = ->
 	collie.Renderer.stop()
 	collie.Renderer.removeAllLayer()
@@ -17,7 +24,8 @@ Template.mission.events "click #start" : ->
 	else
 		collie.ImageManager.add
 			rabbit : "yame_walk.png"
-			ground : "ground.png"  
+			ground : "ground.png"
+			icon : getHolderImage("holder.js/50x50/text:明星") 
 
 
 		layer = new collie.Layer
@@ -37,20 +45,26 @@ Template.mission.events "click #start" : ->
 
 		collie.Timer.cycle ( (oEvent) ->
 			console.log "value : #{oEvent.value}"
+			# rabbit = new collie.DisplayObject(
+			# 	x: 0
+			# 	y: "center"
+			# 	width: 129.4
+			# 	height: 165
+			# 	zIndex: 1
+			# 	backgroundImage: "rabbit"
+			# ).bottom(0).addTo(layer)
+
+			# cycle = collie.Timer.cycle(rabbit, "18fps", {
+			# 	from: 0
+			# 	to: 7
+			# 	loop: 0
+			# })
 			rabbit = new collie.DisplayObject(
 				x: 0
-				y: "center"
-				width: 129.4
-				height: 165
+				y: 200
 				zIndex: 1
-				backgroundImage: "rabbit"
-			).bottom(0).addTo(layer)
-
-			cycle = collie.Timer.cycle(rabbit, "18fps", {
-				from: 0
-				to: 7
-				loop: 0
-			})
+				backgroundImage: "icon"
+			).addTo(layer)
 
 			oTimer = collie.Timer.timeline()
 			oTimer.add(0, "transition", rabbit, 1000, {
@@ -63,7 +77,7 @@ Template.mission.events "click #start" : ->
 			})
 			oTimer.add(1500, "transition", rabbit, 500, {
 				set : "y"
-				to : 150
+				to : 200
 			})
 			oTimer.add(2000, "transition", rabbit, 1000, {
 				set : "x"
