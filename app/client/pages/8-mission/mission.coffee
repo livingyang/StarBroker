@@ -7,86 +7,111 @@ getHolderImage = (imageName) ->
 	})
 	image.attr("src")
 
-cleanCollie = ->
+isPlayingMission = () ->
+	collie.Renderer.isPlaying()
+
+stopPlayMissionResult = () ->
 	collie.Renderer.stop()
 	collie.Renderer.removeAllLayer()
 	collie.Renderer.unload()
 	collie.Timer.removeAll()
 
+playMissionResult = (elParent, totalPoint, starList) ->
+	collie.ImageManager.add
+		icon : getHolderImage("holder.js/50x50/text:明星") 
+
+
+	layer = new collie.Layer
+		width : 320
+		height : 320
+
+	ground = new collie.DisplayObject(
+		x: "center"
+		y: "center"
+		width : 320
+		height : 320
+		backgroundColor : "gray"
+	).addTo(layer);
+
+	oText = new collie.Text(
+		x : 50
+		y : 50
+		fontSize : 30
+		fontColor : "#000000"
+		).addTo(layer).text(totalPoint)
+
+	oCurText = new collie.Text(
+		x : 50
+		y : 100
+		fontSize : 30
+		fontColor : "#000000"
+		).addTo(layer).text(0)
+
+	(collie.Timer.cycle ( (oEvent) ->
+		console.log "value : #{oEvent.value}"
+
+		starResult = starList[oEvent.value]
+
+		starIcon =  new collie.DisplayObject(
+			x : "center"
+			y : "bottom"
+			velocityY : -50
+			backgroundImage: "icon"
+			).addTo(layer)
+
+		pointText = new collie.Text(
+			x : 50
+			y : 50
+			fontSize : 30
+			fontColor : ["red", "black", "blue"][starResult.state]
+			).addTo(starIcon).text(starResult.point)
+
+		oCurText.text(Number(oCurText._sText) + starResult.point)
+
+	), starList.length * 1000, { from : 0, to : starList.length - 1, loop : 1}).attach({
+		complete : ->
+			collie.Timer.delay ((oEvent) -> stopPlayMissionResult()), 1000
+	})
+
+	new collie.FPSConsole().load();
+	collie.Renderer.addLayer layer
+	collie.Renderer.load elParent
+	collie.Renderer.start()
+
 Template.mission.destroyed = ->
-	cleanCollie()
+	stopPlayMissionResult()
 
 Template.mission.events "click #start" : ->
 	console.log "start"
+	totalPoint = 100
+	starList = [
+		{
+			point: 10
+			state: 0 # 0 - bad , 1 - normal , 2 - good
+		},
+		{
+			point: 6
+			state: 1 # 0 - bad , 1 - normal , 2 - good
+		},
+		{
+			point: 9
+			state: 2
+		},
+		{
+			point: 18
+			state: 2
+		},
+		{
+			point: 29
+			state: 2
+		},
+		{
+			point: 19
+			state: 2
+		},
+	]
 
-	if collie.Renderer.isPlaying()
-		cleanCollie()
+	if isPlayingMission()
+		stopPlayMissionResult()
 	else
-		collie.ImageManager.add
-			rabbit : "yame_walk.png"
-			ground : "ground.png"
-			icon : getHolderImage("holder.js/50x50/text:明星") 
-
-
-		layer = new collie.Layer
-			width : 320
-			height : 320
-
-		ground = new collie.DisplayObject(
-			x: 0
-			width: 320 * 2
-			height: 88
-			velocityX: -50
-			backgroundImage: "ground"
-			backgroundRepeat: "repeat-x"
-			rangeX: [-320, 0]
-			positionRepeat: true
-		).bottom(0).addTo(layer);
-
-		collie.Timer.cycle ( (oEvent) ->
-			console.log "value : #{oEvent.value}"
-			# rabbit = new collie.DisplayObject(
-			# 	x: 0
-			# 	y: "center"
-			# 	width: 129.4
-			# 	height: 165
-			# 	zIndex: 1
-			# 	backgroundImage: "rabbit"
-			# ).bottom(0).addTo(layer)
-
-			# cycle = collie.Timer.cycle(rabbit, "18fps", {
-			# 	from: 0
-			# 	to: 7
-			# 	loop: 0
-			# })
-			rabbit = new collie.DisplayObject(
-				x: 0
-				y: 200
-				zIndex: 1
-				backgroundImage: "icon"
-			).addTo(layer)
-
-			oTimer = collie.Timer.timeline()
-			oTimer.add(0, "transition", rabbit, 1000, {
-				set : "x"
-				to : 100
-			})
-			oTimer.add(1000, "transition", rabbit, 500, {
-				set : "y"
-				to : 50
-			})
-			oTimer.add(1500, "transition", rabbit, 500, {
-				set : "y"
-				to : 200
-			})
-			oTimer.add(2000, "transition", rabbit, 1000, {
-				set : "x"
-				to : 200
-				onComplete: -> rabbit.getLayer().removeChild rabbit
-			})
-			), 2000, { from : 0, to : 1}
-
-		new collie.FPSConsole().load();
-		collie.Renderer.addLayer layer
-		collie.Renderer.load document.getElementById("fight")
-		collie.Renderer.start()
+		playMissionResult document.getElementById("fight"), totalPoint, starList

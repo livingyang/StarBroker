@@ -1,4 +1,4 @@
-setPageNameToList "starModels"
+setPageNameToList "starModelList"
 
 Template.starModelList.starModels = ->
 	StarModels.find()
