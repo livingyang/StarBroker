@@ -1,10 +1,10 @@
 setPageNameToList "starModelList"
 
 Template.starModelList.starModels = ->
-	StarModels.find()
+	starModels
 
 Template.starModelList.stars = ->
 	starList = []
 	(Stars.find owner: Meteor.userId()).forEach (star) ->
-		starList.push StarModels.findOne _id: star.model
+		starList.push StarModels.objectForKey(star.model)
 	starList

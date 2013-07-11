@@ -13,6 +13,7 @@ buildFile = (filePath, distDir) ->
 
 buildFile "../../lib/TimeRecoverProperty.coffee", dirDistSrc
 buildFile "../../lib/LevelExpExchange.coffee", dirDistSrc
+buildFile "../../lib/lib/IndexRecord.coffee", dirDistSrc
 
 fs.readdir "spec", (err, files) ->
 	files.forEach (filename) ->
