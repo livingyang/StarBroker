@@ -44,6 +44,8 @@ convertDirCsvToCoffee = (csvDir, coffeeFilePath) ->
 	fs.writeFileSync coffeeFilePath, "# created by #{getFileName process.argv[1]}\n"
 	fs.readdirSync(csvDir).forEach (filename) ->
 		filePath = csvDir + filename
-		fs.appendFileSync coffeeFilePath, getCoffeeSaveData(filePath) if isCsvFilePath(filePath)
+		if isCsvFilePath(filePath)
+			console.log "convert csv file : #{filePath}"
+			fs.appendFileSync coffeeFilePath, getCoffeeSaveData(filePath)
 
 convertDirCsvToCoffee "./csv/", "../../lib/lib/CsvData.coffee"

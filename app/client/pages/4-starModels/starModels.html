@@ -5,10 +5,10 @@
 		{{> starModel}}
 	{{/each}}
 
-	<p>----------</p>
+	<p>----签约艺人------</p>
 	
 	{{#each stars}}
-		{{> starModel}}
+		{{> star}}
 	{{/each}}
 
 
@@ -17,12 +17,26 @@
 
 <template name="starModel">
 	<span>{{name}}</span>
-	<span>{{acting}}</span>
-	<span>{{singing}}</span>
-	<span>{{eloquence}}</span>
-	<span>{{elegant}}</span>
-	<span>{{sexy}}</span>
-	<span>{{wisdom}}</span>
-	<span>{{physical}}</span>
+	<span>演技：{{acting}}</span>
+	<span>歌艺：{{singing}}</span>
+	<span>口才：{{eloquence}}</span>
+	<span>气质：{{elegant}}</span>
+	<span>性感：{{sexy}}</span>
+	<span>智慧：{{wisdom}}</span>
+	<span>体质：{{physical}}</span>
+	<span>喜感：{{chaff}}</span>
+	<span>叛逆：{{treason}}</span>
+	<span>道德：{{moral}}</span>
+	<span>基础潜力：{{potential}}</span>
+	<br/>
+</template>
+
+<template name="star">
+	<span>持有者：{{owner}}</span>
+	<span>模型：{{model}}</span>
+	<span>经验：{{exp}}</span>
+	<span>等级：{{level}}</span>
+	<span>演技：{{acting}}</span>
+	<button id="addExp">增加经验</button>
 	<br/>
 </template>

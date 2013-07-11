@@ -4,7 +4,10 @@ Template.starModelList.starModels = ->
 	starModels
 
 Template.starModelList.stars = ->
-	starList = []
-	(Stars.find owner: Meteor.userId()).forEach (star) ->
-		starList.push StarModels.objectForKey(star.model)
-	starList
+	Stars.find (owner: Meteor.userId())
+
+Template.star.acting = ->
+	this.model
+
+Template.star.events "click #addExp" : ->
+	addStarExp @_id, 10
